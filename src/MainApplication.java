@@ -7,15 +7,35 @@ import DataStructures.Node;
 public class MainApplication {
 
     public static void main(String[] args) {
-        int arr[] = {4,6,3,1,2,5,7};
+        int arr[] = {4,3,6,1,2,5,7};
         BST tree = new BST();
         Node root = null;
         for(int i=0;i<arr.length;i++){
             root = tree.insert(root, arr[i]);
         }
-
-        tree.inorder(root);
-        System.out.println();
-        tree.preorder(root);
+        /*
+        System.out.println("Inorder traversal");
+        tree.inOrder(root);
+        System.out.println("Preorder traversal");
+        tree.preOrder(root);
+        System.out.println("Left View");
+        tree.leftView(root);
+        System.out.println("Right View");
+        tree.rightView(root);
+        System.out.println("Top View");
+        tree.topView(root);*/
+        System.out.println("level order");
+        tree.levelOrder(root);
+        /*
+        System.out.println("Mirror View");
+        tree.mirrorView(root);
+        System.out.println("Bottom View");
+        tree.bottomView(root);
+        System.out.println("Reverse Level Order");
+        tree.reverseLevelOrder(root);*/
+        System.out.println("Spiral View");
+        tree.spiralView(root);
+        System.out.println("Zig Zag View");
+        tree.zigZagView(root);
     }
 }
