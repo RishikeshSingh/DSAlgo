@@ -68,6 +68,7 @@ public class Tree {
         }
     }
 
+
     public void reverseLevelOrder(Node root){
         Queue<Node> queue = new LinkedList<>();
         queue.add(root);
@@ -316,6 +317,156 @@ public class Tree {
         }
     }
 
+    public int height(Node root){
+        if(root == null){
+            return 0;
+        }else{
+            int left = height(root.left);
+            int right = height(root.right);
+            if(left > right){
+                return left+1;
+            }else{
+                return right+1;
+            }
+        }
+    }
 
+    int getDiameter(Node root, int[] max){
+        if(root == null) {
+            return 0;
+        }else{
+            int left = getDiameter(root.left, max);
+            int right = getDiameter(root.right, max);
+            if(max[0] < left+right+1){
+                max[0] = left+right+1;
+            }
+            if(left > right){
+                return left+1;
+            }else{
+                return right+1;
+            }
+        }
+    }
+
+    public int diameter(Node root){
+        int max[] = {-1};
+        getDiameter(root, max);
+        return max[0];
+    }
+
+    public void printKthNode(Node root, int k){
+        if(root == null){
+            return;
+        }
+        if(k==0){
+            System.out.print(root.data);
+            return;
+        }else{
+            printKthNode(root.left,k-1);
+            printKthNode(root.right,k-1);
+        }
+    }
+
+    public int returnSumTree(Node root){
+        if(root == null){
+            return 0;
+        }
+        int temp = root.data;
+        root.data = returnSumTree(root.left)+returnSumTree(root.right);
+        return temp;
+    }
+
+    public Node commonAncestor(Node root, int a, int b, int[] count){
+        if(root == null){
+            return null;
+        }
+
+        if(root.data == a || root.data == b){
+            //System.out.println("node found");
+            count[0]++;
+            return root;
+        }
+
+        Node left = commonAncestor(root.left, a ,b, count);
+        Node right = commonAncestor(root.right, a, b, count);
+
+
+        if(left != null && right != null){
+
+            if(left.data == a && right.data == b){
+                return root;
+            }
+
+            if(left.left.data == a && left.right.data == b){
+                return left;
+            }
+            if(right.left.data == a && right.right.data == b){
+                return right;
+            }
+        }
+        if(left != null){
+            return left;
+        }
+        if(right != null){
+            return right;
+        }
+        return null;
+    }
+
+    public Node lowestCommonAncestor(Node root, int a, int b){
+        int count[] = {0};
+        Node node = commonAncestor(root, a, b, count);
+        if(count[0] == 2){
+            return node;
+        }
+        return null;
+    }
+
+    public Node findRoot(Node troot, Node stroot){
+        if(troot == null || stroot == null){
+            return null;
+        }
+        if(troot.data == stroot.data){
+            return troot;
+        }
+        Node left = findRoot(troot.left, stroot);
+        Node right = findRoot(troot.right, stroot);
+
+        if(left != null){
+            return left;
+        }
+        if(right != null){
+            return right;
+        }
+        return null;
+    }
+
+    public int treeCheck(Node root1, Node root2){
+        if(root1 == null && root2 == null){
+            return 1;
+        }
+        if(root1 == null || root2 == null || root1.data != root2.data){
+            return -1;
+        }
+        int left = treeCheck(root1.left, root2.left);
+        int right = treeCheck(root1.right, root2.right);
+
+        if(left == 1 && right == 1){
+            return 1;
+        }
+        return -1;
+    }
+
+    public boolean subtree(Node troot, Node stroot){
+        Node start_point = findRoot(troot, stroot);
+        if(start_point == null){
+            return false;
+        }
+        int check = treeCheck(start_point, stroot);
+        if(check == 1){
+            return true;
+        }
+        return false;
+    }
 
 }

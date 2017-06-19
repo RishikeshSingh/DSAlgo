@@ -5,9 +5,12 @@ package DataStructures;
  */
 public class Node {
     int data;
-    Node left;
-    Node right;
+    public Node left;
+    public Node right;
     Node(int data){
         this.data = data;
+    }
+    public void data(){
+        System.out.println(this.data);
     }
 }
